@@ -33,7 +33,10 @@ export default function Home() {
 
   return (
     <div className="w-full max-w-md bg-white text-slate-900 shadow-lg rounded-lg p-6">
-      <h1 className="text-2xl font-bold mb-4 text-slate-900">Asset Manager</h1>
+      {/* <h1 className="text-2xl font-bold mb-4 text-slate-900">Asset Manager</h1> */}
+      <h1 className="text-2xl font-bold mb-4 text-slate-900">
+        Asset Manager Eport Demo
+      </h1>
 
       <input
         className="border border-slate-300 rounded-md p-2 w-full mb-3 bg-slate-50 text-slate-900"
