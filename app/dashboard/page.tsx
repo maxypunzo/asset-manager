@@ -3,15 +3,11 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
+import { useRouter } from 'next/navigation';
 import AdminDashboard from '@/components/AdminDashboard';
 import UserDashboard from '@/components/UserDashboard';
-import { useRouter } from 'next/navigation';
 
-type Profile = {
-  id: string;
-  full_name: string | null;
-  role: 'admin' | 'user';
-};
+type Profile = { id: string; full_name: string | null; role: 'admin' | 'user' };
 
 export default function DashboardPage() {
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -25,17 +21,13 @@ export default function DashboardPage() {
         router.push('/');
         return;
       }
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', session.user.id)
         .single();
 
-      if (error) {
-        console.error(error);
-      } else {
-        setProfile(data as Profile);
-      }
+      setProfile(data as Profile);
       setLoading(false);
     };
     load();
@@ -44,28 +36,9 @@ export default function DashboardPage() {
   if (loading) return <p>Loading...</p>;
   if (!profile) return <p>No profile found.</p>;
 
-  return (
-    <div>
-      <div className="flex justify-between mb-4">
-        <h1 className="text-xl font-bold">
-          Dashboard – {profile.role === 'admin' ? 'Admin' : 'User'}
-        </h1>
-        <button
-          className="text-sm underline"
-          onClick={async () => {
-            await supabase.auth.signOut();
-            router.push('/');
-          }}
-        >
-          Logout
-        </button>
-      </div>
-
-      {profile.role === 'admin' ? (
-        <AdminDashboard profile={profile} />
-      ) : (
-        <UserDashboard profile={profile} />
-      )}
-    </div>
+  return profile.role === 'admin' ? (
+    <AdminDashboard profile={profile} />
+  ) : (
+    <UserDashboard profile={profile} />
   );
 }

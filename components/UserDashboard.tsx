@@ -77,68 +77,89 @@ export default function UserDashboard({ profile }: { profile: Profile }) {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-6xl mx-auto">
+      {/* CREATE ASSET CARD */}
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white text-slate-900 p-4 rounded shadow"
+      >
         <h2 className="font-semibold mb-3">Create New Asset</h2>
+
         <input
-          className="border p-2 w-full mb-2"
+          className="border border-slate-300 rounded-md p-2 w-full mb-2 bg-slate-50 text-slate-900"
           placeholder="Asset Name"
           value={form.asset_name}
           onChange={e => setForm({ ...form, asset_name: e.target.value })}
         />
+
         <select
-          className="border p-2 w-full mb-2"
+          className="border border-slate-300 rounded-md p-2 w-full mb-2 bg-slate-50 text-slate-900"
           value={form.category_id}
           onChange={e => setForm({ ...form, category_id: e.target.value })}
         >
           <option value="">Select Category</option>
           {categories.map(c => (
-            <option key={c.id} value={c.id}>{c.name}</option>
+            <option key={c.id} value={c.id}>
+              {c.name}
+            </option>
           ))}
         </select>
+
         <select
-          className="border p-2 w-full mb-2"
+          className="border border-slate-300 rounded-md p-2 w-full mb-2 bg-slate-50 text-slate-900"
           value={form.department_id}
           onChange={e => setForm({ ...form, department_id: e.target.value })}
         >
           <option value="">Select Department</option>
           {departments.map(d => (
-            <option key={d.id} value={d.id}>{d.name}</option>
+            <option key={d.id} value={d.id}>
+              {d.name}
+            </option>
           ))}
         </select>
+
         <input
           type="date"
-          className="border p-2 w-full mb-2"
+          className="border border-slate-300 rounded-md p-2 w-full mb-2 bg-slate-50 text-slate-900"
           value={form.date_purchased}
           onChange={e => setForm({ ...form, date_purchased: e.target.value })}
         />
+
         <input
           type="number"
           step="0.01"
-          className="border p-2 w-full mb-2"
+          className="border border-slate-300 rounded-md p-2 w-full mb-3 bg-slate-50 text-slate-900"
           placeholder="Cost"
           value={form.cost}
           onChange={e => setForm({ ...form, cost: e.target.value })}
         />
+
         <button
           type="submit"
           disabled={loading}
-          className="bg-green-600 text-white px-4 py-2 rounded w-full"
+          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-full"
         >
           {loading ? 'Saving...' : 'Save Asset'}
         </button>
       </form>
 
-      <div className="bg-white p-4 rounded shadow">
+      {/* MY ASSETS CARD */}
+      <div className="bg-white text-slate-900 p-4 rounded shadow">
         <h2 className="font-semibold mb-3">My Assets</h2>
-        {assets.length === 0 && <p className="text-sm text-gray-500">No assets yet.</p>}
+        {assets.length === 0 && (
+          <p className="text-sm text-gray-500">No assets yet.</p>
+        )}
         <ul className="space-y-2">
           {assets.map(a => (
-            <li key={a.id} className="border p-2 rounded flex justify-between">
+            <li
+              key={a.id}
+              className="border border-slate-200 p-2 rounded flex justify-between"
+            >
               <div>
                 <div className="font-medium">{a.asset_name}</div>
                 <div className="text-xs text-gray-600">
-                  {a.category?.name || 'No category'} · {a.department?.name || 'No department'}
+                  {a.category?.name || 'No category'} ·{' '}
+                  {a.department?.name || 'No department'}
                 </div>
               </div>
               <div className="text-right text-sm">
